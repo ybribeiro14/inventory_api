@@ -19,10 +19,10 @@ class UserController {
       return res.status(400).json({ erro: 'User already exists' });
     }
 
-    const { id_user, name, login, job } = await User.create(req.body);
+    const { id, name, login, job } = await User.create(req.body);
 
     return res.json({
-      id_user,
+      id,
       name,
       login,
       job,
@@ -61,6 +61,12 @@ class UserController {
       name,
       email,
     });
+  }
+
+  async getUsers(req, res) {
+    const users = await User.findAll();
+
+    return res.json(users);
   }
 }
 
