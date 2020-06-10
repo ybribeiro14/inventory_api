@@ -9,7 +9,7 @@ import Feature from '../models/Feature';
 class ValidationController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      ean: Yup.string().required(),
+      ean: Yup.string().required().min(13),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
@@ -41,7 +41,7 @@ class ValidationController {
     });
 
     if (!locator) {
-      return res.status(400).json({ error: 'Localizador não existe' });
+      return res.status(400).json({ error: 'Locator does not exist' });
     }
 
     const inventoryData = await Feature.findOne({
@@ -125,13 +125,13 @@ class ValidationController {
     );
 
     if (Number(stat) === 1) {
-      counts.map(count => arrayEans.push(count.first_ean));
+      counts.map((count) => arrayEans.push(count.first_ean));
     }
     if (Number(stat) === 2) {
-      counts.map(count => arrayEans.push(count.second_ean));
+      counts.map((count) => arrayEans.push(count.second_ean));
     }
     if (Number(stat) === 3) {
-      counts.map(count => arrayEans.push(count.third_ean));
+      counts.map((count) => arrayEans.push(count.third_ean));
     }
 
     return res.json({

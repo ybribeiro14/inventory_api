@@ -15,7 +15,7 @@
 
 module.exports = {
   dialect: 'mysql',
-  host: 'localhost',
+  host: '127.0.0.1',
   username: 'root',
   password: 'docker',
   database: 'db_inventory',

@@ -1,13 +1,13 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('bases', {
-      id: {
+      id_base: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      id_inventory: {
+      id_feature: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
@@ -70,7 +70,7 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('bases');
   },
 };

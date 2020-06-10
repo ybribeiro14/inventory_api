@@ -19,10 +19,10 @@ class UserController {
       return res.status(400).json({ erro: 'User already exists' });
     }
 
-    const { id, name, login, job } = await User.create(req.body);
+    const { id_user, name, login, job } = await User.create(req.body);
 
     return res.json({
-      id,
+      id_user,
       name,
       login,
       job,
@@ -31,9 +31,7 @@ class UserController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      login: Yup.string()
-        .email()
-        .required(),
+      login: Yup.string().email().required(),
       oldPassword: Yup.string().min(6),
       password: Yup.string()
         .min(6)

@@ -1,11 +1,15 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('products', {
-      id: {
+      id_product: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+      },
+      id_feature: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       ean: {
         type: Sequelize.STRING(14),
@@ -30,7 +34,7 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('products');
   },
 };
