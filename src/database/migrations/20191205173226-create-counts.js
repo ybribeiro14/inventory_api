@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('counts', {
-      id_count: {
+      id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,

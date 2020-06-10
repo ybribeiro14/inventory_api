@@ -4,7 +4,7 @@ class Count extends Model {
   static init(sequelize) {
     super.init(
       {
-        id_inventory: Sequelize.INTEGER,
+        id_feature: Sequelize.INTEGER,
         locator: Sequelize.STRING,
         first_ean: Sequelize.STRING(14),
         first_lot: Sequelize.STRING,

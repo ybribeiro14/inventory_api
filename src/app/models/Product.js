@@ -7,6 +7,7 @@ class Product extends Model {
         ean: Sequelize.STRING(14),
         cod_product: Sequelize.STRING,
         description: Sequelize.STRING,
+        id_feature: Sequelize.NUMBER,
       },
       {
         sequelize,

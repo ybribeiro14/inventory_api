@@ -4,7 +4,7 @@ class Base extends Model {
   static init(sequelize) {
     super.init(
       {
-        id_inventory: Sequelize.INTEGER,
+        id_feature: Sequelize.INTEGER,
         locator: Sequelize.STRING,
         ean: Sequelize.STRING(14),
         product: Sequelize.STRING,
