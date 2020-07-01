@@ -31,13 +31,13 @@ class RegisterController {
       const counts = await Count.findOne({
         where: {
           locator: req.body.locator,
-          ean: req.body.ean,
-          id_inventory: req.body.id_inventory,
+          first_ean: req.body.ean,
+          id_feature: req.body.id_inventory,
         },
       });
       if (!counts) {
         const registerFirst = {
-          id_inventory: req.body.id_inventory,
+          id_feature: req.body.id_inventory,
           locator: req.body.locator,
           first_ean: req.body.ean,
           first_lot: req.body.lot ? req.body.lot : null,

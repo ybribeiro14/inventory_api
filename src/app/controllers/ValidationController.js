@@ -12,18 +12,24 @@ class ValidationController {
       ean: Yup.string().required().min(13),
     });
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+      return res.json({
+        error: 'Esperado no mínimo 13 dígitos.',
+        statusCode: 400,
+      });
     }
 
     const dataEan = await Product.findOne({ where: { ean: req.body.ean } });
 
     if (!dataEan) {
-      return res.status(400).json({ error: 'Reported EAN does not exist' });
+      return res.json({
+        error: 'EAN informado não está cadastrado.',
+        statusCode: 400,
+      });
     }
 
     const { cod_product, description } = dataEan;
 
-    return res.json({ cod_product, description });
+    return res.json({ cod_product, description, statusCode: 200 });
   }
 
   async index(req, res) {
@@ -33,15 +39,18 @@ class ValidationController {
       user: Yup.string().required(),
     });
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
+      return res.json({ error: 'Validation fails', statusCode: 400 });
     }
 
     const locator = await Base.findOne({
-      where: { locator: req.body.locator, id_inventory: req.body.idInventory },
+      where: { locator: req.body.locator, id_feature: req.body.idInventory },
     });
 
     if (!locator) {
-      return res.status(400).json({ error: 'Locator does not exist' });
+      return res.json({
+        error: 'Localizador não encontrado.',
+        statusCode: 400,
+      });
     }
 
     const inventoryData = await Feature.findOne({
@@ -52,20 +61,22 @@ class ValidationController {
 
     // Validando os dados de inventário modelo 2
     if (stat === 'F1' || stat === 'F2') {
-      return res.status(400).json({
+      return res.json({
         error: 'Próxima contagem ainda não foi liberada para este endereço!',
+        statusCode: 400,
       });
     }
     if (stat === 'F3') {
-      return res.status(400).json({
+      return res.json({
         error: 'Contagens deste inventário já estão encerradas!',
+        statusCode: 400,
       });
     }
 
     const counts = await Count.findAll({
       where: {
         locator: req.body.locator,
-        id_inventory: req.body.idInventory,
+        id_feature: req.body.idInventory,
       },
     });
 
@@ -73,7 +84,7 @@ class ValidationController {
 
     if (model === 1) {
       if (counts.length === 0) {
-        return res.json({ count: 'Primeira contagem' });
+        return res.json({ count: 'Primeira contagem', statusCode: 200 });
       }
       const objCounts = counts[0];
 
@@ -84,13 +95,15 @@ class ValidationController {
         second_ean,
         second_amount,
         second_user,
+        third_user,
       } = objCounts;
 
       // Validar se primeria contagem já bateu com o estoque
       if (first_ean === ean && Number(first_amount) === Number(amount)) {
-        return res
-          .status(400)
-          .json({ error: 'Produto já validado pela primeira contagem' });
+        return res.json({
+          error: 'Produto já validado pela primeira contagem',
+          statusCode: 400,
+        });
       }
 
       // Validar se segunda contagem já bateu com o estoque ou com a primeira
@@ -99,20 +112,29 @@ class ValidationController {
         (second_ean === first_ean &&
           Number(second_amount) === Number(first_amount))
       ) {
-        return res
-          .status(400)
-          .json({ error: 'Produto já validado pela segunda contagem' });
+        return res.json({
+          error: 'Produto já validado pela segunda contagem',
+          statusCode: 400,
+        });
       }
 
       // Validar se o usuário está autorizado a fazer a próxima contagem
 
       if (req.body.user === first_user || req.body.user === second_user) {
-        return res.status(400).json({
+        return res.json({
           error: 'Usuário não tem permissão para fazer esta contagem!',
+          statusCode: 400,
         });
       }
 
-      return res.json();
+      if (third_user) {
+        return res.json({
+          error: 'Todas as contagens já realizadas para esse Localizador.',
+          statusCode: 400,
+        });
+      }
+
+      return res.json({ statusCode: 200 });
     }
 
     const arrayEans = [];
@@ -138,6 +160,7 @@ class ValidationController {
       countNumber: Number(stat),
       eans: arrayEans,
       users: arrayUsers,
+      statusCode: 200,
     });
   }
 }

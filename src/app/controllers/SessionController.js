@@ -27,7 +27,7 @@ class SessionController {
       return res.status(401).json({ error: 'Password does not watch' });
     }
 
-    const { id, name, job } = user;
+    const { id, name, job, id_feature } = user;
 
     return res.json({
       user: {
@@ -35,6 +35,7 @@ class SessionController {
         name,
         login,
         job,
+        id_feature,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
