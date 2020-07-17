@@ -13,7 +13,10 @@ class RegisterController {
       array_ean: Yup.array(),
     });
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ erro: 'Validation fails' });
+      return res.json({
+        error: 'Falha na validação!',
+        statusCode: 400,
+      });
     }
 
     try {
@@ -22,9 +25,10 @@ class RegisterController {
       });
 
       if (!invetory) {
-        return res
-          .status(400)
-          .json({ erro: 'Código de inventário informado não existe!' });
+        return res.json({
+          error: 'Código de inventário informado não existe!',
+          statusCode: 400,
+        });
       }
 
       const { model, stat } = invetory;
@@ -475,7 +479,10 @@ class RegisterController {
         locator,
       });
     } catch (error) {
-      return res.status(400).json({ erro: `Erro: ${error}` });
+      return res.json({
+        error: `Erro: ${error}`,
+        statusCode: 400,
+      });
     }
   }
 }

@@ -10,13 +10,19 @@ class UserController {
       password: Yup.string().required(),
     });
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ erro: 'Validation fails' });
+      return res.json({
+        error: 'Falha na validação',
+        statusCode: 400,
+      });
     }
 
     const userExists = await User.findOne({ where: { login: req.body.login } });
 
     if (userExists) {
-      return res.status(400).json({ erro: 'User already exists' });
+      return res.json({
+        error: 'Usuário já existe!',
+        statusCode: 400,
+      });
     }
 
     const { id, name, login, job } = await User.create(req.body);
@@ -26,6 +32,7 @@ class UserController {
       name,
       login,
       job,
+      statusCode: 200,
     });
   }
 
@@ -60,6 +67,38 @@ class UserController {
       id,
       name,
       email,
+    });
+  }
+
+  async vincUserFeature(req, res) {
+    const schema = Yup.object().shape({
+      id_feature: Yup.number(),
+      id: Yup.number(),
+    });
+    if (!(await schema.isValid(req.body))) {
+      return res.json({
+        error: 'Falha na validação!',
+        statusCode: 400,
+      });
+    }
+
+    const { id, id_feature } = req.body;
+    const user = await User.findOne({ where: { id } });
+
+    if (!user) {
+      return res.json({
+        error: 'Usuário informado não existe!',
+        statusCode: 400,
+      });
+    }
+
+    await user.update({
+      id_feature,
+    });
+
+    return res.json({
+      message: 'Usuário atualizado com sucesso!',
+      statusCode: 200,
     });
   }
 
