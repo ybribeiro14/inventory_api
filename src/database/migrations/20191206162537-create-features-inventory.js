@@ -31,6 +31,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: true,
       },
+      empty_locator: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+      },
       stat: {
         type: Sequelize.STRING,
         allowNull: true,

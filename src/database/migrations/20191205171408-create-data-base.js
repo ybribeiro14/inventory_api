@@ -17,7 +17,7 @@ module.exports = {
       },
       ean: {
         type: Sequelize.STRING(14),
-        allowNull: false,
+        allowNull: true,
       },
       product: {
         type: Sequelize.STRING,

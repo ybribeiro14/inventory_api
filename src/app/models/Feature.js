@@ -11,6 +11,7 @@ class Feature extends Model {
         collect_serial: Sequelize.BOOLEAN,
         collect_date: Sequelize.BOOLEAN,
         collect_lot: Sequelize.BOOLEAN,
+        empty_locator: Sequelize.BOOLEAN,
       },
       {
         sequelize,

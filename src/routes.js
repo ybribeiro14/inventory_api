@@ -4,20 +4,26 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import RegisterController from './app/controllers/RegisterController';
 import ValidationController from './app/controllers/ValidationController';
+import BaseController from './app/controllers/BaseController';
+import FeatureController from './app/controllers/FeatureController';
 
 import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.post('/users', UserController.store);
+routes.post('/users', UserController.createUser);
 routes.get('/users', UserController.getUsers);
-routes.post('/sessions', SessionController.store);
+routes.post('/sessions', SessionController.newSession);
 
 routes.use(authMiddleware);
 
-routes.post('/check_ean', ValidationController.store);
-routes.post('/check_locator', ValidationController.index);
+routes.post('/check_ean', ValidationController.checkEan);
+routes.post('/check_ean_locator', ValidationController.checkEanLocator);
+routes.post('/check_locator', ValidationController.checkLocator);
+routes.post('/empty_locator', BaseController.createEmptyLocator);
 
-routes.post('/register', RegisterController.store);
+routes.post('/register', RegisterController.registerCount);
+
+routes.get('/stat_feature/:id_feature', FeatureController.getStatFeature);
 
 export default routes;

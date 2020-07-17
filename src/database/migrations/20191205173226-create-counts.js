@@ -87,6 +87,18 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      fourth_ean: {
+        type: Sequelize.STRING(14),
+        allowNull: true,
+      },
+      fourth_amount: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
+      },
+      fourth_user: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

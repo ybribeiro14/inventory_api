@@ -3,9 +3,10 @@ import * as Yup from 'yup';
 
 import authConfig from '../../config/auth';
 import User from '../models/User';
+import Feature from '../models/Feature';
 
 class SessionController {
-  async store(req, res) {
+  async newSession(req, res) {
     const schema = Yup.object().shape({
       login: Yup.string().required(),
       password: Yup.string().required(),
@@ -29,6 +30,8 @@ class SessionController {
 
     const { id, name, job, id_feature } = user;
 
+    const feature = await Feature.findOne({ where: { id: id_feature } });
+
     return res.json({
       user: {
         id,
@@ -36,6 +39,7 @@ class SessionController {
         login,
         job,
         id_feature,
+        feature,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,

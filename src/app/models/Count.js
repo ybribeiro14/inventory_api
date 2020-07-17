@@ -24,6 +24,9 @@ class Count extends Model {
         third_date_validate: Sequelize.DATE,
         third_amount: Sequelize.DOUBLE,
         third_user: Sequelize.STRING,
+        fourth_ean: Sequelize.STRING(14),
+        fourth_amount: Sequelize.DOUBLE,
+        fourth_user: Sequelize.STRING,
       },
       {
         sequelize,
