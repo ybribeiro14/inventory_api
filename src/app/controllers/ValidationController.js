@@ -45,7 +45,7 @@ class ValidationController {
     const schema = Yup.object().shape({
       ean: Yup.string().required(),
       id_feature: Yup.number().required(),
-      locator: Yup.number().required(),
+      locator: Yup.string().required(),
     });
     if (!(await schema.isValid(req.body))) {
       return res.json({
