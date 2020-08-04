@@ -19,6 +19,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      same_ean: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       collect_serial: {
         type: Sequelize.BOOLEAN,
         allowNull: true,

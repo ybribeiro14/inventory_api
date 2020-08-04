@@ -8,6 +8,7 @@ class Feature extends Model {
         stat: Sequelize.STRING,
         model: Sequelize.INTEGER,
         validate_ean: Sequelize.BOOLEAN,
+        same_ean: Sequelize.BOOLEAN,
         collect_serial: Sequelize.BOOLEAN,
         collect_date: Sequelize.BOOLEAN,
         collect_lot: Sequelize.BOOLEAN,
